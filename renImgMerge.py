@@ -20,10 +20,10 @@ if args.direction != 'rtl':
 
 def join_images(folder_path, file_name):
     # ファイル名と拡張子を取得
-    file_name, file_ext = file_name.split(".")
+    file_name, file_ext = os.path.splitext(file_name)
     file_name = file_name.split('_')[0]
     os.chdir(folder_path)
-    file_ext = '.' + file_ext
+
     # 分割した画像の最大行と最大列を探す
     max_rows, max_columns = 0, 0
 

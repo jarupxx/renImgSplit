@@ -26,10 +26,10 @@ if args.direction != 'rtl':
 
 def split_images(folder_path, file_name):
     # ファイル名と拡張子を取得
-    file_name, file_ext = file_name.split(".")
+    file_name, file_ext = os.path.splitext(file_name)
     file_name = file_name.split('_')[0]
     os.chdir(folder_path)
-    file_ext = '.' + file_ext
+
     # 画像の読み込み
     image = Image.open(f"{folder_path}//{file_name}{file_ext}")
 

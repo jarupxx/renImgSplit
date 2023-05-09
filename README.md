@@ -36,7 +36,7 @@ Install dependencies with ```pip install PIL plyer```
 
 同じ解像度で分割できない場合は端が削られます.
 
-ファイル名に'_'と'.'は使用できません.
+ファイル名に'_'は使用できません.
 ## Summary
 
 This program split images.
@@ -73,7 +73,7 @@ If you want to crop 100px left and right, split it into 3 parts and save format 
 ## Notes
 This program cannot be splitted with the same resolution, the edges will be clipped.
 
-Do not use '_' and '.' by filename.
+Do not use '_' by filename.
 # renImgMerge
 renImgSplit で分割した画像をまとめて結合します.
 
