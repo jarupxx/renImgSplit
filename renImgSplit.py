@@ -24,14 +24,14 @@ except ValueError:
 if args.direction != 'rtl':
     args.direction = 'ltr'
 
-# ファイルを処理する
-for file_path in args.files:
-    print('Processing file:', file_path)
+def split_images(folder_path, file_name):
     # ファイル名と拡張子を取得
-    orig_file_path, orig_file_ext = file_path.split(".")
-
+    file_name, file_ext = file_name.split(".")
+    file_name = file_name.split('_')[0]
+    os.chdir(folder_path)
+    file_ext = '.' + file_ext
     # 画像の読み込み
-    image = Image.open(file_path)
+    image = Image.open(f"{folder_path}//{file_name}{file_ext}")
 
     # 画像をクロップする
     width, height = image.size
@@ -70,8 +70,17 @@ for file_path in args.files:
             tile.save(tile_file_name)
 
     # 元ファイルは済にする
-    folder_path, file_name = os.path.split(file_path)
-    os.rename(f"{folder_path}//{file_name}", f"済-{orig_file_path}.{orig_file_ext}")
+    os.rename(f"{orig_folder_path}//{orig_file_name}", f"{orig_folder_path}//済-{orig_file_name}")
 
+# ファイルを処理する
+for file_path in args.files:
+    orig_folder_path, orig_file_name = os.path.split(file_path)
+    if orig_folder_path == "":
+        orig_folder_path = os.getcwd()
+    print('Processing folder:',orig_folder_path, 'file:', orig_file_name)
+    #print('Processing file:', orig_file_name)
+    split_images(orig_folder_path, orig_file_name)
+
+print('Done.')
 py_name = os.path.basename(__file__)
-notification.notify(title = py_name, message="Done", timeout=5)
+notification.notify(title = py_name, message="Done.", timeout=5)

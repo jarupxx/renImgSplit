@@ -18,17 +18,17 @@ except ValueError:
 if args.direction != 'rtl':
     args.direction = 'ltr'
 
-def join_images(folder_path, file_path):
+def join_images(folder_path, file_name):
     # ファイル名と拡張子を取得
-    file_name, file_ext = file_path.split(".")
-    orig_file_name = file_name.split('_')[0]
+    file_name, file_ext = file_name.split(".")
+    file_name = file_name.split('_')[0]
     os.chdir(folder_path)
     file_ext = '.' + file_ext
     # 分割した画像の最大行と最大列を探す
     max_rows, max_columns = 0, 0
 
     for file in os.listdir("."):
-        if file.startswith(orig_file_name) and file.endswith(file_ext):
+        if file.startswith(file_name) and file.endswith(file_ext):
             try:
                 _, rows_columns = file.split("_")
                 rows, columns = rows_columns.replace(file_ext, "").split("x")
@@ -42,7 +42,7 @@ def join_images(folder_path, file_path):
                 max_columns = columns
 
     # ファイル名の配列を作成する
-    image_files = [[f"{folder_path}//{orig_file_name}_{r}x{c}{file_ext}" for c in range(1, max_columns+1)] for r in range(1, max_rows+1)]
+    image_files = [[f"{folder_path}//{file_name}_{r}x{c}{file_ext}" for c in range(1, max_columns+1)] for r in range(1, max_rows+1)]
     # 画像を読み込み、サイズを取得する
     images_rows = [Image.open(temp_name) for temp_name in image_files[0]]
 
@@ -72,15 +72,17 @@ def join_images(folder_path, file_path):
             x_offset += widths[x]
 
     # 新しい画像を保存する
-    new_image.save(f"{folder_path}//{orig_file_name}-結.{args.ext}")
+    new_image.save(f"{folder_path}//{file_name}-結.{args.ext}")
 
 # ファイルを処理する
 for file_path in args.files:
-    folder_path, file_name = os.path.split(file_path)
-    if folder_path == "":
-        folder_path = os.getcwd()
-    print('Processing file:', file_name)
-    join_images(folder_path, file_name)
+    orig_folder_path, orig_file_name = os.path.split(file_path)
+    if orig_folder_path == "":
+        orig_folder_path = os.getcwd()
+    # print('Processing folder:',orig_folder_path, 'file:', orig_file_name)
+    print('Processing file:', orig_file_name)
+    join_images(orig_folder_path, orig_file_name)
 
+print('Done.')
 py_name = os.path.basename(__file__)
-notification.notify(title = py_name, message="Done", timeout=5)
+notification.notify(title = py_name, message="Done.", timeout=5)
