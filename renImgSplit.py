@@ -77,8 +77,10 @@ for file_path in args.files:
     orig_folder_path, orig_file_name = os.path.split(file_path)
     if orig_folder_path == "":
         orig_folder_path = os.getcwd()
-    print('Processing folder:',orig_folder_path, 'file:', orig_file_name)
-    #print('Processing file:', orig_file_name)
+    if orig_file_name.count('_') != 0 or orig_file_name.count('x') != 0:
+        print('Skip: not allowed reserved words "_x".', orig_file_name)
+        continue
+    print('Processing file:', orig_file_name)
     split_images(orig_folder_path, orig_file_name)
 
 print('Done.')

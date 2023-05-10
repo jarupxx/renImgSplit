@@ -80,6 +80,9 @@ for file_path in args.files:
     if orig_folder_path == "":
         orig_folder_path = os.getcwd()
     # print('Processing folder:',orig_folder_path, 'file:', orig_file_name)
+    if orig_file_name.count('_') != 1 or orig_file_name.count('x') != 1:
+        print('Skip: allowed filename is {base}_{row}x{column}{.ext}', orig_file_name)
+        continue
     print('Processing file:', orig_file_name)
     join_images(orig_folder_path, orig_file_name)
 
