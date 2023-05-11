@@ -10,7 +10,7 @@ Install dependencies with ```pip install PIL plyer```
 同名のファイルは上書きされます.
 ## 使用方法
 
-```renImgSplit.py C:\path\001.jpg```
+```renImgSplit.py "C:\path\001.jpg"```
 
 '--ext' 保存形式 初期値 = .bmp
 
