@@ -31,7 +31,7 @@ def join_images(folder_path, file_name):
         if file.startswith(file_name) and file.endswith(file_ext):
             try:
                 _, rows_columns = file.split("_")
-                rows, columns = rows_columns.replace(file_ext, "").split("x")
+                rows, columns = rows_columns.replace(file_ext, "").split("^")
             except ValueError:
                 logging.debug('ValueError')
                 return
@@ -42,7 +42,7 @@ def join_images(folder_path, file_name):
                 max_columns = columns
 
     # ファイル名の配列を作成する
-    image_files = [[f"{folder_path}//{file_name}_{r}x{c}{file_ext}" for c in range(1, max_columns+1)] for r in range(1, max_rows+1)]
+    image_files = [[f"{folder_path}//{file_name}_{r}^{c}{file_ext}" for c in range(1, max_columns+1)] for r in range(1, max_rows+1)]
     # 画像を読み込み、サイズを取得する
     images_rows = [Image.open(temp_name) for temp_name in image_files[0]]
 
@@ -80,8 +80,8 @@ for file_path in args.files:
     if orig_folder_path == "":
         orig_folder_path = os.getcwd()
     # print('Processing folder:',orig_folder_path, 'file:', orig_file_name)
-    if orig_file_name.count('_') != 1 or orig_file_name.count('x') != 1:
-        print('Skip: allowed filename is {base}_{row}x{column}{.ext}', orig_file_name)
+    if orig_file_name.count('_') != 1 or orig_file_name.count('^') != 1:
+        print('Skip: allowed filename is {base}_{row}^{column}{.ext}', orig_file_name)
         continue
     print('Processing file:', orig_file_name)
     join_images(orig_folder_path, orig_file_name)

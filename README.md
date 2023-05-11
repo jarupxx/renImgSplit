@@ -81,7 +81,7 @@ renImgSplit で分割した画像をまとめて結合します.
 
 ## 使用方法
 
-```renImgMerge.py "C:\path\001_1x2.bmp"```
+```renImgMerge.py "C:\path\001_1^2.bmp"```
 
 '--ext' 保存形式 初期値 = .bmp
 
@@ -98,7 +98,7 @@ This program Merge the images split by renImgSplit.
 It is assumed that all the images are of the same resolution.
 ## Usage
 
-```renImgMerge.py "C:\path\001_1x2.bmp"```
+```renImgMerge.py "C:\path\001_1^2.bmp"```
 
 '--ext' 'Image format default: .bmp'
 

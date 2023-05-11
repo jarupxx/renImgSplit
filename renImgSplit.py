@@ -66,7 +66,7 @@ def split_images(folder_path, file_name):
                 column_name = args.columns - column - 1
             # 分割した画像を保存する
             file_name, file_ext = os.path.splitext(file_path)
-            tile_file_name = f"{file_name}_{row+1}x{column_name+1}.{args.ext}"
+            tile_file_name = f"{file_name}_{row+1}^{column_name+1}.{args.ext}"
             tile.save(tile_file_name)
 
     # 元ファイルは済にする
@@ -77,7 +77,7 @@ for file_path in args.files:
     orig_folder_path, orig_file_name = os.path.split(file_path)
     if orig_folder_path == "":
         orig_folder_path = os.getcwd()
-    if orig_file_name.count('_') != 0 or orig_file_name.count('x') != 0:
+    if orig_file_name.count('_') != 0 or orig_file_name.count('^') != 0:
         print('Skip: not allowed reserved words "_x".', orig_file_name)
         continue
     print('Processing file:', orig_file_name)
