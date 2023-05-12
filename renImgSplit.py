@@ -1,5 +1,6 @@
 import argparse
 import os
+import time
 from PIL import Image
 from plyer import notification
 
@@ -66,9 +67,9 @@ def split_images(folder_path, file_name):
             file_name, file_ext = os.path.splitext(file_path)
             tile_file_name = f"{file_name}_{row+1}^{column_name+1}.{args.ext}"
             tile.save(tile_file_name)
-
     os.rename(f"{orig_folder_path}//{orig_file_name}", f"{orig_folder_path}//済-{orig_file_name}")
 
+start_time = time.time()
 for file_path in args.files:
     orig_folder_path, orig_file_name = os.path.split(file_path)
     if orig_folder_path == "":
@@ -79,6 +80,10 @@ for file_path in args.files:
     print('Processing file:', orig_file_name)
     split_images(orig_folder_path, orig_file_name)
 
-print('Done.')
 py_name = os.path.basename(__file__)
-notification.notify(title = py_name, message="Done.", timeout=5)
+print('Done.')
+# 処理が3秒超えたら通知をする
+end_time = time.time()
+processing_time = end_time - start_time
+if processing_time > 3:
+    notification.notify(title=py_name, message="Done.", timeout=5)

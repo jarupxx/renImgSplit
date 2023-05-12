@@ -1,5 +1,6 @@
 import argparse
 import os
+import time
 import logging
 from PIL import Image
 from plyer import notification
@@ -72,6 +73,7 @@ def join_images(folder_path, file_name):
 
     new_image.save(f"{folder_path}//{file_name}-結.{args.ext}")
 
+start_time = time.time()
 for file_path in args.files:
     orig_folder_path, orig_file_name = os.path.split(file_path)
     if orig_folder_path == "":
@@ -83,6 +85,10 @@ for file_path in args.files:
     print('Processing file:', orig_file_name)
     join_images(orig_folder_path, orig_file_name)
 
-print('Done.')
 py_name = os.path.basename(__file__)
-notification.notify(title = py_name, message="Done.", timeout=5)
+print('Done.')
+# 処理が3秒超えたら通知をする
+end_time = time.time()
+processing_time = end_time - start_time
+if processing_time > 3:
+    notification.notify(title=py_name, message="Done.", timeout=5)
