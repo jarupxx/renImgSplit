@@ -21,7 +21,7 @@ if args.direction != 'rtl':
 def join_images(folder_path, file_name):
     # ファイル名と拡張子を取得
     file_name, file_ext = os.path.splitext(file_name)
-    file_name = file_name.split('_')[0]
+    file_name = file_name.split("_")[0]
     os.chdir(folder_path)
 
     # 分割した画像の最大行と最大列を探す
@@ -41,7 +41,7 @@ def join_images(folder_path, file_name):
             if columns > max_columns:
                 max_columns = columns
 
-    # ファイル名の配列を作成する
+    # ファイル名の配列を作成する NOTE: ("_")("^")
     image_files = [[f"{folder_path}//{file_name}_{r}^{c}{file_ext}" for c in range(1, max_columns+1)] for r in range(1, max_rows+1)]
     # 画像を読み込み、サイズを取得する
     images_rows = [Image.open(temp_name) for temp_name in image_files[0]]
@@ -52,7 +52,7 @@ def join_images(folder_path, file_name):
     total_width = sum(widths)
     max_height = max(heights)
 
-    # 画像を縦に並べたときの画像のサイズは乗算
+    # 画像を縦に並べたときの画像のサイズは乗算に決め打ち
     total_height = max_height * max_rows
 
     # 新しい画像を作成する
@@ -62,26 +62,23 @@ def join_images(folder_path, file_name):
         # 画像を新しい画像に貼り付ける
         x_offset = 0
         y_offset = max_height * r
-        # 画像を読み込み
         images_rows = [Image.open(temp_name) for temp_name in image_files[r]]
-        # 配置を反転させる
+
         if args.direction == 'ltr':
             images_rows = images_rows[::-1]
         for x, image in enumerate(images_rows):
             new_image.paste(image, (x_offset, y_offset))
             x_offset += widths[x]
 
-    # 新しい画像を保存する
     new_image.save(f"{folder_path}//{file_name}-結.{args.ext}")
 
-# ファイルを処理する
 for file_path in args.files:
     orig_folder_path, orig_file_name = os.path.split(file_path)
     if orig_folder_path == "":
         orig_folder_path = os.getcwd()
     # print('Processing folder:',orig_folder_path, 'file:', orig_file_name)
-    if orig_file_name.count('_') != 1 or orig_file_name.count('^') != 1:
-        print('Skip: allowed filename is {base}_{row}^{column}{.ext}', orig_file_name)
+    if orig_file_name.count("_") != 1 or orig_file_name.count("^") != 1:
+        print('Skip: allowed filename is {base}_{row}^{column}{.ext}', orig_file_name) # NOTE: ("_")("^")
         continue
     print('Processing file:', orig_file_name)
     join_images(orig_folder_path, orig_file_name)
